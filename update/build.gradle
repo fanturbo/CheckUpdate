@@ -1,0 +1,111 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:+'
+}
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+version = "0.4.0"	//版本号，以后每次更新library都得更改
+android {
+
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    resourcePrefix "turbofan_"  //资源前缀
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 3
+        versionName version
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.3.0'
+}
+
+def siteUrl = 'https://github.com/xturbofan/AutoUpdate.git'	//Homepage URL of the library
+def gitUrl = 'https://github.com/xturbofan/AutoUpdate.git'	//Git repository url
+group = "cn.turbo.autoupdate"	//
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'check udate for andorid'
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'xturbofan' //your user ID
+                        name 'xturbofan' //your name
+                        email '615951217@qq.com' //your email
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"	//发布到Bintray的哪个仓库
+        name = "AutoUpdate"	//发布到Bintray上的名字
+        desc = "check udate for andorid"	//项目描述
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+//        issueTrackerUrl = issueUrl
+        licenses = ["Apache-2.0"]
+        labels = ['android']	//标签
+        publish = true
+        publicDownloadNumbers = true
+    }
+}
