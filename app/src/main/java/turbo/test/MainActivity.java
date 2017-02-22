@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             public void done(AVObject avObject, AVException e) {
                 updateBean = new UpdateBean(avObject.getInt("versionCode"), avObject.getInt("size"), avObject.getString("versionName"),
                         avObject.getString("url"), avObject.getString("updateMessage"), avObject.getString("md5"));
-                AutoUpdateUtils.update(MainActivity.this, true,updateBean.getVersionCode(), updateBean.getNote(), updateBean.getUrl());
+                AutoUpdateUtils.update(MainActivity.this, true,updateBean.getVersionCode(), "<font color='red'>更新提示</font>",updateBean.getNote(), updateBean.getUrl());
             }
         });
 

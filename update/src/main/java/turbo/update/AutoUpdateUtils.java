@@ -24,8 +24,9 @@ import java.util.*;
  */
 public class AutoUpdateUtils {
 
-    public static AlertDialog.Builder showDialog(Context context, String message, DialogInterface.OnClickListener onClickListener,boolean forceUpdate) {
+    public static AlertDialog.Builder showDialog(Context context,String title, String message, DialogInterface.OnClickListener onClickListener,boolean forceUpdate) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(Html.fromHtml(title));
         builder.setMessage(Html.fromHtml(message));
         builder.setPositiveButton("确定", onClickListener);
         if(!forceUpdate) {
@@ -99,7 +100,7 @@ public class AutoUpdateUtils {
      * @param note        更新说明信息
      * @param url         新apk下载地址
      */
-    public static void update(final Context context, boolean forceUpdate, final int versionCode, final String note, final String url) {
+    public static void update(final Context context, boolean forceUpdate, final int versionCode,final String title, final String note, final String url) {
         final int currentCode = getVersionCode(context.getApplicationContext());
         if (currentCode < versionCode) {
             final SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
@@ -107,7 +108,7 @@ public class AutoUpdateUtils {
             int todayBegin = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
             if (!forceUpdate && todayBegin == lastIgnoredDayBegin)
                 return;
-            showDialog(context, note, new DialogInterface.OnClickListener() {
+            showDialog(context, title,note, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (url != null) {
@@ -129,7 +130,7 @@ public class AutoUpdateUtils {
      * @param url         新apk下载地址
      * @param md5         md5
      */
-    public static void update(final Context context, boolean forceUpdate, final int versionCode, final String note, final String url, final String md5) {
+    public static void update(final Context context, boolean forceUpdate, final int versionCode,final String title, final String note, final String url, final String md5) {
         final int currentCode = getVersionCode(context.getApplicationContext());
         if (currentCode < versionCode) {
             final SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
@@ -137,7 +138,7 @@ public class AutoUpdateUtils {
             int todayBegin = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
             if (!forceUpdate && todayBegin == lastIgnoredDayBegin)
                 return;
-            showDialog(context, note, new DialogInterface.OnClickListener() {
+            showDialog(context,title, note, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (url != null) {

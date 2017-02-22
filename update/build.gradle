@@ -1,17 +1,16 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:+'
 }
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+
 version = "0.4.0"	//版本号，以后每次更新library都得更改
 android {
 
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
     resourcePrefix "turbofan_"  //资源前缀
 
@@ -39,8 +38,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
 }
 
-def siteUrl = 'https://github.com/xturbofan/AutoUpdate.git'	//Homepage URL of the library
-def gitUrl = 'https://github.com/xturbofan/AutoUpdate.git'	//Git repository url
+def siteUrl = 'https://github.com/fanturbo/CheckUpdate.gitt'	//Homepage URL of the library
+def gitUrl = 'https://github.com/fanturbo/CheckUpdate.git'	//Git repository url
 group = "cn.turbo.autoupdate"	//
 install {
     repositories.mavenInstaller {
