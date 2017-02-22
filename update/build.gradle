@@ -30,9 +30,14 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        encoding "UTF-8"
+    }
 
 }
-
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.3.0'

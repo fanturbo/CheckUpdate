@@ -28,8 +28,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        encoding "UTF-8"
+    }
 }
-
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":update")
